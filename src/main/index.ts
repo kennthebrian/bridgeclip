@@ -26,10 +26,9 @@ process.on('unhandledRejection', (reason) => {
   logger.error('main.unhandledRejection', errorSummary(reason))
 })
 
-// Privacy & telemetry hardening: disable Chromium telemetry, background networking, pings, and crash reporting.
+// Privacy & telemetry hardening: disable Chromium telemetry, component updates, domain reliability, and pings.
 process.env.BRIDGECLIP_DISABLE_AUTO_UPDATE = '1'
 app.commandLine.appendSwitch('disable-metrics')
-app.commandLine.appendSwitch('disable-background-networking')
 app.commandLine.appendSwitch('disable-component-update')
 app.commandLine.appendSwitch('disable-domain-reliability')
 app.commandLine.appendSwitch('no-pings')
@@ -114,7 +113,8 @@ function createWindow(): void {
     // renderer collapses the sidebar to an icon rail.
     minWidth: 720,
     minHeight: 520,
-    show: false,
+    show: !hiddenForTests,
+    center: true,
     title: 'BridgeClip',
     icon: is.dev ? devIcon : undefined,
     // macOS-only window chrome: 'hiddenInset' and trafficLightPosition are
