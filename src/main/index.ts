@@ -72,6 +72,7 @@ if (!gotTheLock) {
   app.on('second-instance', () => {
     if (mainWindow) {
       if (mainWindow.isMinimized()) mainWindow.restore()
+      mainWindow.show()
       mainWindow.focus()
     }
   })
@@ -145,6 +146,14 @@ function createWindow(): void {
       refreshDevDockIcon()
     }
   })
+
+  if (!hiddenForTests) {
+    setTimeout(() => {
+      if (mainWindow && !mainWindow.isDestroyed() && !mainWindow.isVisible()) {
+        mainWindow.show()
+      }
+    }, 1000)
+  }
 
   mainWindow.on('closed', () => {
     mainWindow = null
