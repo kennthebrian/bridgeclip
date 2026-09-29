@@ -26,6 +26,14 @@ process.on('unhandledRejection', (reason) => {
   logger.error('main.unhandledRejection', errorSummary(reason))
 })
 
+// Privacy & telemetry hardening: disable Chromium telemetry, background networking, pings, and crash reporting.
+process.env.BRIDGECLIP_DISABLE_AUTO_UPDATE = '1'
+app.commandLine.appendSwitch('disable-metrics')
+app.commandLine.appendSwitch('disable-background-networking')
+app.commandLine.appendSwitch('disable-component-update')
+app.commandLine.appendSwitch('disable-domain-reliability')
+app.commandLine.appendSwitch('no-pings')
+
 let mainWindow: BrowserWindow | null = null
 
 // Development-only: isolated settings (and single-instance lock) for
